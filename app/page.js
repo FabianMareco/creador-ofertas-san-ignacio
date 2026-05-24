@@ -155,8 +155,20 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Canvas Preview (compact, top) */}
-        <div style={{ flexShrink: 0, background: 'radial-gradient(ellipse at center, #252528 0%, #1C1C1E 70%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 0' }}>
+        {/* Canvas Preview — ocupa la mitad de la pantalla */}
+        <div style={{
+          height: '50dvh',
+          minHeight: 220,
+          flexShrink: 0,
+          background: 'radial-gradient(ellipse at center, #252528 0%, #1C1C1E 70%)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          position: 'relative',
+        }}>
+          {/* Grid decorativo */}
+          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)', backgroundSize: '32px 32px', pointerEvents: 'none' }} />
           <CanvasArea mobile={true} />
         </div>
 
