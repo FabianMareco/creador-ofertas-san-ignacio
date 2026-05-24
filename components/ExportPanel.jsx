@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { FORMATS, renderToCanvas } from '@/lib/drawCanvas';
 
-export default function ExportPanel({ format, onFormatChange, templateId, imageUrl, productName, currentPrice, oldPrice, logoPosition, currency, badgeText }) {
+export default function ExportPanel({ format, onFormatChange, templateId, imageUrl, productName, currentPrice, oldPrice, logoPosition, currency, badgeText, tagline, showTagline }) {
   const [isExporting, setIsExporting] = useState(false);
   const [exported,    setExported]    = useState(false);
 
@@ -12,7 +12,7 @@ export default function ExportPanel({ format, onFormatChange, templateId, imageU
       const fmt = FORMATS.find(f => f.id === format) || FORMATS[0];
       const canvas = document.createElement('canvas');
       canvas.width = fmt.width; canvas.height = fmt.height;
-      await renderToCanvas(canvas, { templateId, imageUrl, productName, currentPrice, oldPrice, logoPosition, currency, badgeText });
+      await renderToCanvas(canvas, { templateId, imageUrl, productName, currentPrice, oldPrice, logoPosition, currency, badgeText, tagline, showTagline });
       canvas.toBlob(blob => {
         if (!blob) return;
         const url = URL.createObjectURL(blob);

@@ -4,7 +4,7 @@ import { renderToCanvas, FORMATS } from '@/lib/drawCanvas';
 
 export default function CanvasPreview({
   templateId, imageUrl, productName, currentPrice,
-  oldPrice, format, logoPosition, currency, badgeText, isMobile,
+  oldPrice, format, logoPosition, currency, badgeText, tagline, showTagline, isMobile,
 }) {
   const canvasRef    = useRef(null);
   const containerRef = useRef(null);
@@ -69,8 +69,8 @@ export default function CanvasPreview({
     await renderToCanvas(canvas, {
       templateId, imageUrl, productName, currentPrice,
       oldPrice, logoPosition, currency, badgeText,
-      drawWidth: pW,   // ← the coordinate space width
-      drawHeight: pH,  // ← the coordinate space height
+      drawWidth: pW, drawHeight: pH,
+      tagline, showTagline,
     });
   }, [templateId, imageUrl, productName, currentPrice,
       oldPrice, format, logoPosition, currency, badgeText, pW, pH]);
