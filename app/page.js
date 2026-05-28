@@ -54,6 +54,7 @@ export default function Home() {
   const [format,       setFormat]       = useState('story');
   const [logoPosition, setLogoPosition] = useState('center');
   const [currency,     setCurrency]     = useState('Gs.');
+  const [imageShape,   setImageShape]   = useState('wide');
   const [mobileTab,    setMobileTab]    = useState('template');
 
   // ── IMPORTANTE: este handler nunca define componentes adentro ────────────
@@ -72,7 +73,7 @@ export default function Home() {
   const canvasProps = {
     templateId, imageUrl, productName, currentPrice,
     oldPrice, format, logoPosition, currency, badgeText,
-    tagline, showTagline,
+    tagline, showTagline, imageShape,
   };
 
   const canvasFallback = (
@@ -172,7 +173,7 @@ export default function Home() {
                 productName={productName} currentPrice={currentPrice}
                 oldPrice={oldPrice} logoPosition={logoPosition}
                 currency={currency} badgeText={badgeText}
-                tagline={tagline} showTagline={showTagline} />
+                tagline={tagline} showTagline={showTagline} imageShape={imageShape} />
             </section>
           }
 
@@ -227,7 +228,8 @@ export default function Home() {
 
         <section style={panelStyle}>
           <ImageSelector onImageChange={setImageUrl} productName={productName}
-            currentPrice={currentPrice} oldPrice={oldPrice} currency={currency} />
+            currentPrice={currentPrice} oldPrice={oldPrice} currency={currency}
+            imageShape={imageShape} onImageShapeChange={setImageShape} />
         </section>
 
         <section style={panelStyle}>

@@ -3,65 +3,79 @@ import { useState } from 'react';
 import { TEMPLATES } from '@/lib/drawCanvas';
 
 const CATEGORIES = [
-  { id: 'all',     label: 'Todos',      icon: '🎨' },
-  { id: 'clasico', label: 'Clásicos',   icon: '🏪' },
-  { id: 'neon',    label: 'Neón',       icon: '💡' },
-  { id: 'pastel',  label: 'Pasteles',   icon: '🌸' },
+  { id: 'clasico',   label: 'Clásicos',   icon: '⭐' },
+  { id: 'neon',      label: 'Neón',       icon: '💡' },
+  { id: 'pastel',    label: 'Pasteles',   icon: '🌸' },
+  { id: 'navidad',   label: 'Navidad',    icon: '🎄' },
+  { id: 'invierno',  label: 'Invierno',   icon: '❄️' },
+  { id: 'paraguay',  label: 'Paraguay',   icon: '🇵🇾' },
+  { id: 'amor',      label: 'Amor',       icon: '❤️' },
+  { id: 'nanduti',   label: 'Ñanduti',    icon: '🌺' },
+  { id: 'mascotas',  label: 'Mascotas',   icon: '🐾' },
 ];
 
 export default function TemplateSelector({ selected, onChange }) {
-  const [cat, setCat] = useState('all');
-  const filtered = cat === 'all' ? TEMPLATES : TEMPLATES.filter(t => t.category === cat);
+  const [cat, setCat] = useState('clasico');
+  const filtered = TEMPLATES.filter(t => t.category === cat);
 
   return (
     <div>
-      <p className="section-label">Diseño del template</p>
+      <p className="section-label">Template de diseño</p>
 
-      {/* Category tabs */}
-      <div className="flex gap-1 mb-3 rounded-lg p-1" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid #3A3A3E' }}>
+      {/* Category tabs — scrollable */}
+      <div style={{ display: 'flex', gap: 4, overflowX: 'auto', paddingBottom: 6, scrollbarWidth: 'none', marginBottom: 10 }}>
         {CATEGORIES.map(c => (
           <button key={c.id} onClick={() => setCat(c.id)}
-            className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-md text-xs font-medium transition-all"
             style={{
-              background: cat === c.id ? '#C41E2A' : 'transparent',
-              color: cat === c.id ? '#FFFFFF' : '#8E8E93',
-              fontFamily: 'Outfit, sans-serif',
+              flexShrink: 0, display: 'flex', alignItems: 'center', gap: 4,
+              padding: '5px 9px', borderRadius: 20, fontSize: 11, cursor: 'pointer',
+              transition: 'all 0.15s', whiteSpace: 'nowrap', fontFamily: 'Outfit',
+              background: cat === c.id ? '#C41E2A' : 'rgba(255,255,255,0.05)',
+              border: `1px solid ${cat === c.id ? '#C41E2A' : '#3A3A3E'}`,
+              color: cat === c.id ? '#FFF' : '#8E8E93',
+              fontWeight: cat === c.id ? 600 : 400,
             }}>
-            <span>{c.icon}</span>
-            <span className="hidden sm:inline">{c.label}</span>
+            <span style={{ fontSize: 13 }}>{c.icon}</span>
+            {c.label}
           </button>
         ))}
       </div>
 
       {/* Template grid */}
-      <div className="grid grid-cols-5 gap-1.5 max-h-52 overflow-y-auto pr-0.5">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 }}>
         {filtered.map(t => (
           <button key={t.id} onClick={() => onChange(t.id)}
-            className={`template-card flex flex-col items-center gap-1 p-1 ${selected === t.id ? 'selected' : ''}`}
-            title={t.name}>
-            <div className="w-full rounded-lg overflow-hidden" style={{ height: 48 }}>
-              <div style={{
-                width: '100%', height: '100%',
-                background: `linear-gradient(135deg, ${t.colors[0]} 45%, ${t.colors[1]} 45%)`,
-                display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', padding: 4,
-              }}>
-                <div style={{ width: 12, height: 12, borderRadius: '50%', background: t.colors[2], flexShrink: 0,
-                  boxShadow: t.category === 'neon' ? `0 0 8px ${t.colors[1]}` : 'none' }} />
-              </div>
+            title={t.name}
+            style={{
+              padding: '8px 4px', borderRadius: 10, cursor: 'pointer',
+              transition: 'all 0.15s',
+              background: selected === t.id ? 'rgba(196,30,42,0.2)' : 'rgba(255,255,255,0.04)',
+              border: `2px solid ${selected === t.id ? '#C41E2A' : '#3A3A3E'}`,
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5,
+            }}>
+            {/* Color swatch */}
+            <div style={{
+              width: 32, height: 32, borderRadius: 8, overflow: 'hidden',
+              display: 'grid', gridTemplateColumns: '1fr 1fr',
+              boxShadow: selected === t.id ? `0 0 8px ${t.colors[0]}80` : 'none',
+            }}>
+              {t.colors.slice(0, 4).map((col, i) => (
+                <div key={i} style={{ background: col }} />
+              ))}
             </div>
             <span style={{
-              fontSize: '9px', textAlign: 'center', lineHeight: 1.2,
-              color: selected === t.id ? '#F5A623' : '#8E8E93',
-              fontFamily: 'Outfit, sans-serif',
-              fontWeight: selected === t.id ? 700 : 400,
+              fontSize: 8, fontFamily: 'Outfit', lineHeight: 1.2, textAlign: 'center',
+              color: selected === t.id ? '#FFF' : '#8E8E93',
+              fontWeight: selected === t.id ? 600 : 400,
+              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+              maxWidth: '100%', padding: '0 2px',
             }}>{t.name}</span>
           </button>
         ))}
       </div>
 
-      {/* Selected label */}
       {selected && (
-        <p className="text-xs mt-2 text-center" style={{ color: '#F5A623', fontFamily: 'Outfit, sans-serif' }}>
+        <p style={{ fontSize: 10, color: '#F5A623', marginTop: 8, fontFamily: 'Outfit', textAlign: 'center' }}>
           ✓ {TEMPLATES.find(t => t.id === selected)?.name}
         </p>
       )}

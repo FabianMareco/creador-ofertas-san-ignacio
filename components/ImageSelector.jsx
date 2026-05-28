@@ -4,7 +4,7 @@ import { useState, useRef, useCallback, lazy, Suspense } from 'react';
 // Lazy-load the heavy editor
 const ImageEditor = lazy(() => import('./ImageEditor'));
 
-export default function ImageSelector({ onImageChange, productName, currentPrice, oldPrice, currency }) {
+export default function ImageSelector({ onImageChange, productName, currentPrice, oldPrice, currency, imageShape, onImageShapeChange }) {
   const [mode,         setMode]         = useState('upload');
   const [searchQuery,  setSearchQuery]  = useState('');
   const [results,      setResults]      = useState([]);
@@ -79,6 +79,31 @@ export default function ImageSelector({ onImageChange, productName, currentPrice
             <span>Editar imagen</span>
           </button>
         )}
+      </div>
+
+
+      {/* Image shape selector */}
+      <div style={{ marginBottom: 10 }}>
+        <p className="section-label" style={{ marginBottom: 6 }}>Forma de la imagen</p>
+        <div style={{ display: 'flex', gap: 6 }}>
+          {[
+            { id: 'wide',     icon: '▬', label: 'Ancha' },
+            { id: 'square',   icon: '■', label: 'Cuadrada' },
+            { id: 'portrait', icon: '▮', label: 'Vertical' },
+          ].map(s => (
+            <button key={s.id} onClick={() => onImageShapeChange(s.id)}
+              style={{
+                flex: 1, padding: '7px 4px', borderRadius: 8, cursor: 'pointer',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
+                background: imageShape === s.id ? 'rgba(196,30,42,0.15)' : 'rgba(255,255,255,0.04)',
+                border: `1.5px solid ${imageShape === s.id ? '#C41E2A' : '#3A3A3E'}`,
+                transition: 'all 0.15s',
+              }}>
+              <span style={{ fontSize: 16, color: imageShape === s.id ? '#F5A623' : '#555' }}>{s.icon}</span>
+              <span style={{ fontSize: 9, fontFamily: 'Outfit', color: imageShape === s.id ? '#FFF' : '#8E8E93' }}>{s.label}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Tab switcher */}
